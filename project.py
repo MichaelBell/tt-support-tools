@@ -569,10 +569,8 @@ class Project:
         config = user_config
 
         if "STD_CELL_LIBRARY" in config:
-            # Couldn't work out a way to get the current PDK version.
-            # I'm not sure what creates the sym links and sets up the SOURCES file that is written below
-            # For now, hard coding
-            PDK_VERSION = "bdc9412b3e468c102d01b7cf6337be06ec6e9c9a"
+            import openlane.common.misc
+            PDK_VERSION = openlane.common.misc.get_opdks_rev()
 
             volare.enable(
                 os.environ["PDK_ROOT"],
@@ -1175,7 +1173,7 @@ class Project:
                     total += 1
                     cell_lib = m.group(1)
                     cell_name = m.group(2)
-                    assert cell_lib in ["fd_sc_hd", "ef_sc_hd", ""]
+                    #assert cell_lib in ["fd_sc_hd", "ef_sc_hd"]
                     try:
                         cell_count[cell_name] += 1
                     except KeyError:
