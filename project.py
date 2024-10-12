@@ -568,23 +568,16 @@ class Project:
             write_config(user_config, "src/config_merged", ("json",))
         config = user_config
 
-        if "STD_CELL_LIBRARY" in config and self.args.openlane2:
-            pdk_sources_file = os.path.join(
-                os.environ["PDK_ROOT"], os.environ["PDK"], "SOURCES"
-            )
-            try:
-                pdk_sources = open(pdk_sources_file).read()
-            except FileNotFoundError:
-                # Trigger the smoke test to download the base PDK from which we can extract the PDK version - there's probably a better way to do this!
-                env = os.environ.copy()
-                p = subprocess.run("python -m openlane --pdk-root $PDK_ROOT --dockerized --hide-progress-bar --smoke-test", shell=True, env=env)
-
-                pdk_sources = open(pdk_sources_file).read()
+        if "STD_CELL_LIBRARY" in config:
+            # Couldn't work out a way to get the current PDK version.
+            # I'm not sure what creates the sym links and sets up the SOURCES file that is written below
+            # For now, hard coding
+            PDK_VERSION = "bdc9412b3e468c102d01b7cf6337be06ec6e9c9a"
 
             volare.enable(
                 os.environ["PDK_ROOT"],
                 {"sky130A": "sky130"}[os.environ["PDK"]],
-                pdk_sources.split()[1],
+                PDK_VERSION,
                 include_libraries=[config["STD_CELL_LIBRARY"],]
             )
 
