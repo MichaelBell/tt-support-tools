@@ -537,13 +537,11 @@ class Project:
             }
         write_config(config, os.path.join(self.src_dir, "user_config"), ("json",))
 
-        config = read_config("src/config", ("json", "tcl"))
-        user_config = read_config("src/user_config", ("json",))
-        user_config.update(config)
+        config.update(read_config(os.path.join(self.src_dir, "config"), ("json", "tcl")))
         if self.args.orfs:
-            write_config(user_config, "src/config_merged", ("mk",))
+            write_config(config, "src/config_merged", ("mk",))
         else:
-            write_config(user_config, "src/config_merged", ("json",))
+            write_config(config, "src/config_merged", ("json",))
 
     def golden_harden(self):
         logging.info(f"hardening {self}")
