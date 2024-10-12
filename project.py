@@ -537,6 +537,11 @@ class Project:
             }
         write_config(config, os.path.join(self.src_dir, "user_config"), ("json",))
 
+        config = read_config("src/config", ("json", "tcl"))
+        user_config = read_config("src/user_config", ("json",))
+        config.update(user_config)
+        write_config(config, "src/config_merged", ("json",))
+
     def golden_harden(self):
         logging.info(f"hardening {self}")
         shutil.copyfile("golden_config.json", os.path.join(self.src_dir, "config.json"))
