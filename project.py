@@ -568,11 +568,19 @@ class Project:
             write_config(user_config, "src/config_merged", ("json",))
         config = user_config
 
-        if "STD_CELL_LIBRARY" in config:
+        if "STD_CELL_LIBRARY" in config and self.args.openlane2:
             pdk_sources_file = os.path.join(
                 os.environ["PDK_ROOT"], os.environ["PDK"], "SOURCES"
             )
-            pdk_sources = open(pdk_sources_file).read()
+            try:
+                pdk_sources = open(pdk_sources_file).read()
+            except FileNotFoundError:
+                # Trigger the smoke test to download the base PDK from which we can extract the PDK version - there's probably a better way to do this!
+                env = os.environ.copy()
+                p = subprocess.run("python -m openlane --pdk-root $PDK_ROOT --dockerized --hide-progress-bar --smoke-test", shell=True, env=env)
+
+                pdk_sources = open(pdk_sources_file).read()
+
             volare.enable(
                 os.environ["PDK_ROOT"],
                 {"sky130A": "sky130"}[os.environ["PDK"]],
