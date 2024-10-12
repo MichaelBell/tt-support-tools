@@ -566,6 +566,19 @@ class Project:
             write_config(user_config, "src/config_merged", ("mk",))
         else:
             write_config(user_config, "src/config_merged", ("json",))
+        config = user_config
+
+        if "STD_CELL_LIBRARY" in config:
+            pdk_sources_file = os.path.join(
+                os.environ["PDK_ROOT"], os.environ["PDK"], "SOURCES"
+            )
+            pdk_sources = open(pdk_sources_file).read()
+            volare.enable(
+                os.environ["PDK_ROOT"],
+                {"sky130A": "sky130"}[os.environ["PDK"]],
+                pdk_sources.split()[1],
+                include_libraries=[config["STD_CELL_LIBRARY"],]
+            )
 
         if self.args.orfs:
             shutil.rmtree("runs/wokwi", ignore_errors=True)
