@@ -1091,18 +1091,29 @@ class Project:
             util_log = glob.glob(os.path.join(self.local_dir, util_glob))[0]
         util_label = "[INFO GPL-0019] Util:"
         util_line = next(line for line in open(util_log) if line.startswith(util_label))
-        util = util_line.removeprefix(util_label).strip()
+        util = util_line.removeprefix(util_label).strip().split()[0]
+        density_label = "[INFO GPL-0023] TargetDensity:"
+        density_line = next(
+            line for line in open(util_log) if line.startswith(density_label)
+        )
+        density = float(density_line.removeprefix(density_label).strip()) * 100
 
         if self.args.orfs:
             wire_length = self.metrics["detailedroute__route__wirelength"]
+            final_util = 0.0  # Not sure what this is on ORFS
         else:
             wire_length = self.metrics["route__wirelength"]
+            final_util = float(self.metrics["design__instance__utilization"]) * 100
 
         print("# Routing stats")
         print()
-        print("| Utilisation (%) | Wire length (um) |")
-        print("|-------------|------------------|")
-        print("| {} | {} |".format(util, wire_length))
+        print("| Placement Utilisation | Final Utilisation (%) | Wire length (um) |")
+        print("|-----------------------|-----------------------|------------------|")
+        print(
+            "| {} (max: {}) | {:.3f} % | {} |".format(
+                util, density, final_util, wire_length
+            )
+        )
 
     # Print the summaries
     def summarize(self):
