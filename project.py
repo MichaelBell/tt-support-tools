@@ -518,6 +518,8 @@ class Project:
         workflow_url = self.get_workflow_url()
 
         # Install latest GF180 PDK
+        env = os.environ.copy()
+        print("PDK ROOT: ", env["PDK_ROOT"])
         p = subprocess.run('python -m ciel enable --pdk-root "$PDK_ROOT" --pdk-family=gf180mcuD 8fa792c6f7db44c0873c619d62190496b89c0083', shell=True, env=env)
 
         self.create_merged_config()
@@ -527,7 +529,6 @@ class Project:
         arg_pdk_root = '--pdk-root "$PDK_ROOT"' if "PDK_ROOT" in os.environ else ""
         arg_pdk = self.tech.librelane_pdk_args
         harden_cmd = f"python -m librelane {arg_pdk_root} --docker-no-tty --dockerized {arg_pdk_root} {arg_pdk} --run-tag wokwi --force-run-dir runs/wokwi {arg_progress} src/config_merged.json"
-        env = os.environ.copy()
         logging.debug(harden_cmd)
         p = subprocess.run(harden_cmd, shell=True, env=env)
         if p.returncode != 0:
