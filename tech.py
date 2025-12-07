@@ -178,7 +178,7 @@ class IHPTech(Tech):
 
 class GF180MCUDTech(Tech):
     def_suffix = "pgvdd"
-    librelane_pdk_args = "--pdk gf180mcuD"
+    librelane_pdk_args = "--manual-pdk --pdk gf180mcuD"
     tt_corner = "nom_tt_025C_3v30"
     cell_regexp = (
         r"^\s*gf180mcu_(?P<cell_lib>\S+)__(?P<cell_name>\S+)_(?P<cell_drive>\d+)"

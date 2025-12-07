@@ -517,6 +517,9 @@ class Project:
         tt_version = self.get_tt_tools_version()
         workflow_url = self.get_workflow_url()
 
+        # Install latest GF180 PDK
+        p = subprocess.run('ciel enable --pdk-root "$PDK_ROOT" --pdk-family=gf180mcuD 8fa792c6f7db44c0873c619d62190496b89c0083')
+
         self.create_merged_config()
         shutil.rmtree("runs/wokwi", ignore_errors=True)
         os.makedirs("runs/wokwi", exist_ok=True)
