@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import typing
+import ciel
 
 import chevron
 import klayout.db as pya
@@ -518,7 +519,7 @@ class Project:
         workflow_url = self.get_workflow_url()
 
         # Install latest GF180 PDK
-        p = subprocess.run('ciel enable --pdk-root "$PDK_ROOT" --pdk-family=gf180mcuD 8fa792c6f7db44c0873c619d62190496b89c0083')
+        ciel.enable(pdk_root=os.environ["PDK_ROOT"], pdk="gf180mcuD", version="8fa792c6f7db44c0873c619d62190496b89c0083")
 
         self.create_merged_config()
         shutil.rmtree("runs/wokwi", ignore_errors=True)
