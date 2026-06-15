@@ -489,9 +489,14 @@ class Project:
         tile_sizes = self.get_tile_sizes()
         die_area = tile_sizes[tiles]
         def_suffix = self.tech.def_suffix
-        def_template = (
-            f"dir::../tt/tech/{self.pdk}/def/tt_block_{tiles}_{def_suffix}.def"
-        )
+        if self.info.is_analog:
+            def_template = (
+                f"dir::../tt/tech/{self.pdk}/def/analog/tt_analog_{tiles}.def"
+            )
+        else:
+            def_template = (
+                f"dir::../tt/tech/{self.pdk}/def/tt_block_{tiles}_{def_suffix}.def"
+            )
         config = {
             "DESIGN_NAME": self.info.top_module,
             "VERILOG_FILES": [f"dir::{src}" for src in self.sources],
