@@ -1,7 +1,7 @@
-# Create a JSON file with cell definitions from the gf180mcu_fd_sc_mcu7t5v0 standard cell library.
+# Create a JSON file with cell definitions from the gf180mcu_fd_sc_mcu9t5v0 standard cell library.
 # To run this script, first clone the standard cell library by running:
 #
-#     git clone --depth 1 https://github.com/google/globalfoundries-pdk-libs-gf180mcu_fd_sc_mcu7t5v0 gf180mcu_fd_sc_mcu7t5v0
+#     git clone --depth 1 https://github.com/google/globalfoundries-pdk-libs-gf180mcu_fd_sc_mcu9t5v0 gf180mcu_fd_sc_mcu9t5v0
 
 import glob
 import json
@@ -26,7 +26,7 @@ class GF180Cell(TypedDict):
 
 
 def create_cell_defs():
-    json_files = glob.glob("gf180mcu_fd_sc_mcu7t5v0/cells/*/definition.json")
+    json_files = glob.glob("gf180mcu_fd_sc_mcu9t5v0/cells/*/definition.json")
     definitions: Dict[str, GF180Cell] = {}
     for json_file in json_files:
         with open(json_file) as fh:

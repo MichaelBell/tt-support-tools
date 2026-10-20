@@ -193,9 +193,9 @@ class GF180MCUDTech(Tech):
         # The default configuration is for a 5V supply, but TT targets a 3.3V supply,
         # so we need to adjust the library paths to use the 3.3V libraries.
         "VDD_PIN_VOLTAGE": 3.3,
-        "LIB_SYNTH": "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__tt_025C_3v30.lib",
-        "LIB_FASTEST": "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__ff_n40C_3v60.lib",
-        "LIB_SLOWEST": "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__ss_125C_3v00.lib",
+        "LIB_SYNTH": "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu9t5v0/lib/gf180mcu_fd_sc_mcu9t5v0__tt_025C_3v30.lib",
+        "LIB_FASTEST": "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu9t5v0/lib/gf180mcu_fd_sc_mcu9t5v0__ff_n40C_3v60.lib",
+        "LIB_SLOWEST": "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu9t5v0/lib/gf180mcu_fd_sc_mcu9t5v0__ss_125C_3v00.lib",
         "DEFAULT_CORNER": "nom_tt_025C_3v30",
         "STA_CORNERS": [
             "nom_tt_025C_3v30",
@@ -210,13 +210,13 @@ class GF180MCUDTech(Tech):
         ],
         "LIB": {
             "*_tt_025C_3v30": [
-                "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__tt_025C_3v30.lib"
+                "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu9t5v0/lib/gf180mcu_fd_sc_mcu9t5v0__tt_025C_3v30.lib"
             ],
             "*_ss_125C_3v00": [
-                "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__ss_125C_3v00.lib"
+                "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu9t5v0/lib/gf180mcu_fd_sc_mcu9t5v0__ss_125C_3v00.lib"
             ],
             "*_ff_n40C_3v60": [
-                "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu7t5v0/lib/gf180mcu_fd_sc_mcu7t5v0__ff_n40C_3v60.lib"
+                "pdk_dir::libs.ref/gf180mcu_fd_sc_mcu9t5v0/lib/gf180mcu_fd_sc_mcu9t5v0__ff_n40C_3v60.lib"
             ],
         },
     }
@@ -242,7 +242,7 @@ class GF180MCUDTech(Tech):
         return parse_openpdks_pdk_version(pdk_sources_file)
 
     def load_cell_definitions(self) -> Dict[str, CellDefinition]:
-        URL_FORMAT = "https://gf180mcu-pdk.readthedocs.io/en/latest/digital/standard_cells/gf180mcu_fd_sc_mcu7t5v0/cells/{name}/gf180mcu_fd_sc_mcu7t5v0__{name}{variant}.html"
+        URL_FORMAT = "https://gf180mcu-pdk.readthedocs.io/en/latest/digital/standard_cells/gf180mcu_fd_sc_mcu9t5v0/cells/{name}/gf180mcu_fd_sc_mcu9t5v0__{name}{variant}.html"
         script_dir = os.path.dirname(os.path.realpath(__file__))
         with open(os.path.join(script_dir, "tech/gf180mcuD/cells.json")) as fh:
             cells = json.load(fh)
