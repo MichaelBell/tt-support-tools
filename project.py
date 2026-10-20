@@ -573,6 +573,45 @@ class Project:
         os.chdir(cwd)
 
     def create_tt_submission(self):
+        cwd = os.getcwd()
+        os.chdir(self.local_dir)
+
+        repo = self.get_git_remote()
+        commit_hash = self.get_git_commit_hash()
+        tt_version = self.get_tt_tools_version()
+        workflow_url = self.get_workflow_url()
+
+        # Write commit information
+        commit_id_json_path = "runs/wokwi/final/commit_id.json"
+        with open(os.path.join(self.local_dir, commit_id_json_path), "w") as f:
+            json.dump(
+                {
+                    "app": f"Tiny Tapeout {tt_version}",
+                    "repo": repo,
+                    "commit": commit_hash,
+                    "workflow_url": workflow_url,
+                },
+                f,
+                indent=2,
+            )
+            f.write("\n")
+        run_dir = os.path.join(self.local_dir, "runs/wokwi")
+        with open(os.path.join(run_dir, "resolved.json"), "r") as f:
+            ll_config = json.load(f)
+        librelane_version = ll_config["meta"]["librelane_version"]
+        with open(os.path.join(run_dir, "pdk.json"), "w") as f:
+            pdk_version_info = self.tech.read_pdk_version(ll_config["PDK_ROOT"])
+            pdk_json = {
+                "FLOW_NAME": "LibreLane",
+                "FLOW_VERSION": librelane_version,
+                "PDK": ll_config["PDK"],
+                "PDK_SOURCE": pdk_version_info["source"],
+                "PDK_VERSION": pdk_version_info["version"],
+            }
+            json.dump(pdk_json, f, indent=2)
+
+        os.chdir(cwd)
+
         top_module = self.get_macro_name()
         logging.info(f"Creating TT submission for {top_module}")
         tt_submission_dir = os.path.join(self.local_dir, "tt_submission")
